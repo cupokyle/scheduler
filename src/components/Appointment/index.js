@@ -7,7 +7,6 @@ import 'components/Appointment/styles.scss';
 export default function Appointment (props) {
 
   const {time, interview} = props;
-  console.log("Bazinga", interview);
 
   return (
     <article className="appointment">
