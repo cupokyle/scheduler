@@ -8,8 +8,8 @@ export default function InterviewerList(props) {
   key={interviewer.id}
   name={interviewer.name}
   avatar={interviewer.avatar}
-  selected={interviewer.id === props.interviewer}
-  setInterviewer={event => props.setInterviewer(interviewer.id)}
+  selected={interviewer.id === props.value}
+  setInterviewer={event => props.onChange(interviewer.id)}
   />)
   return (
     <section className="interviewers">
@@ -20,16 +20,3 @@ export default function InterviewerList(props) {
     </section>
   );
 }
-
-
-
-
-
-
-
-  // const parsedDays = props.days.map(day => <DayListItem 
-  //   key={day.id}
-  //   name={day.name} 
-  //   spots={day.spots} 
-  //   selected={day.name === props.day}
-  //   setDay={props.setDay}  />)
