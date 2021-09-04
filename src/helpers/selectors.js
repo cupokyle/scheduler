@@ -26,3 +26,19 @@ export function getInterview(state, interview) {
   }
   return null;
 }
+
+export function getInterviewersForDay(state, day) {
+  // Find the day in state.days
+  const selectedDay = state.days.filter(thisDay => thisDay.name === day);
+  // Ensure that it has truthy length
+  if (selectedDay.length){
+    const intIds = selectedDay[0].interviewers;
+    // Convert interviewers objec to array
+    const myInterviewersArray = [...Object.values(state.interviewers)];
+    // Compare ID's from day interviewers to interviewer ids.
+    const selectedInts = myInterviewersArray.filter(int => intIds.includes(int.id))
+    return selectedInts;
+  }
+  // If no interviewers that day, return empty []
+  return [];
+}
