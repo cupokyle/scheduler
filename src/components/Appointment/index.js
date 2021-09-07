@@ -8,6 +8,7 @@ import Empty from "./Empty";
 import Form from "./Form";
 import Status from "./Status";
 import Confirm from "./Confirm";
+import Error from "./Error";
 
 import "components/Appointment/styles.scss";
 
@@ -22,6 +23,8 @@ export default function Appointment(props) {
   const DELETING = "DELETING";
   const CONFIRM = "CONFIRM";
   const EDIT = "EDIT";
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE = "ERROR_DELETE";
 
   const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
 
@@ -31,14 +34,33 @@ export default function Appointment(props) {
       interviewer,
     };
     transition(SAVING);
-    bookInterview(id, interview).then(() => transition(SHOW));
+    bookInterview(id, interview)
+      .then(() => transition(SHOW))
+      .catch((err) => transition(ERROR_SAVE, true));
   }
 
+  // function cancel() {
+  //   transition(DELETING, true);
+  //   cancelInterview(id)
+  //     .then(() => {
+  //       transition(EMPTY);
+  //     })
+  //     .catch((err) => transition(ERROR_DELETE, true));
+  // }
   function cancel() {
-    transition(DELETING);
-    cancelInterview(id, interview).then(() => {
-      transition(EMPTY);
-    });
+    transition(DELETING, true);
+
+    cancelInterview(id)
+      .then((response) => {
+        transition(SHOW);
+      })
+      .catch((error) => transition(ERROR_DELETE, true));
+  }
+
+  // Mentor & I could not get to the bottom of TypeError
+  // Using function to transition from Error_Delete close instead
+  function toEdit() {
+    transition(EDIT);
   }
 
   return (
@@ -50,7 +72,7 @@ export default function Appointment(props) {
           student={interview.student}
           interviewer={interview.interviewer}
           onDelete={() => transition(CONFIRM)}
-          onEdit={() => transition(EDIT)}
+          onEdit={toEdit}
         />
       )}
       {mode === CREATE && (
@@ -71,7 +93,7 @@ export default function Appointment(props) {
         />
       )}
 
-      {/* Status Messages */}
+      {/* Status/Error Messages */}
       {mode === SAVING && <Status message={"SAVING"} />}
       {mode === DELETING && <Status message={"DELETING"} />}
 
@@ -79,8 +101,14 @@ export default function Appointment(props) {
         <Confirm
           message={"You sure about that?"}
           onCancel={() => back()}
-          onConfirm={cancel}
+          onConfirm={() => cancel()}
         />
+      )}
+      {mode === ERROR_SAVE && (
+        <Error message="Appointment cannot be saved." onClose={back} />
+      )}
+      {mode === ERROR_DELETE && (
+        <Error message="Appointment cannot be deleted." onClose={back} />
       )}
     </article>
   );

@@ -1,25 +1,33 @@
-import { useState } from "react"
-
+import { useState } from "react";
 
 export default function useVisualMode(initial) {
   const [mode, setMode] = useState(initial);
   const [history, setHistory] = useState([initial]);
 
-  function transition(secondary, replace=false) {
-    if (replace){
-      setHistory((prev) => [...prev.slice(0, prev.length -1)])
+  //Refactor transition and back functions with Mentor
+
+  const transition = (mode, replace = false) => {
+    if (replace === true) {
+      const tempHistory = [...history];
+      tempHistory.pop();
+      tempHistory.push(mode);
+      setHistory([...tempHistory]);
+      setMode(mode);
     } else {
-    setHistory(prev => [...prev, mode]);
-  }
-  setMode(secondary);
-  }
+      setHistory([...history, mode]);
+      setMode(mode);
+    }
+  };
 
-  function back() {
-    const historyTemp = [...history];
-    setMode(historyTemp[historyTemp.length - 1])
-    historyTemp.pop();
-    setHistory(historyTemp);
-  }
+  const back = () => {
+    if (history.length) {
+      const tempHistory = [...history];
+      tempHistory.pop();
+      const prev = tempHistory.slice(-1)[0];
+      setMode(prev);
+      setHistory(tempHistory);
+    }
+  };
 
-  return { mode , transition, back};
+  return { mode, transition, back };
 }

@@ -15,7 +15,7 @@ export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    // you may put the line below, but will have to remove/comment hardcoded appointments variable
+    // you may put th>e line below, but will have to remove/comment hardcoded appointments variable
     appointments: {},
     interviewers: {},
   });
@@ -37,9 +37,9 @@ export default function Application(props) {
         ...state.appointments,
         [id]: appointment,
       };
-      return axios
-        .put(`api/appointments/${id}`, { interview })
-        .then(setState({ ...state, appointments }));
+      return axios.put(`api/appointments/${id}`, { interview }).then((res) => {
+        setState({ ...state, appointments });
+      });
     }
 
     function cancelInterview(id) {
@@ -52,8 +52,10 @@ export default function Application(props) {
         [id]: appointment,
       };
       return axios
-        .delete(`api/appointments/${id}`)
-        .then(setState({ ...state, appointments }));
+        .delete(`api/appointments/${id}`, { interview: null })
+        .then((res) => {
+          setState({ ...state, appointments });
+        });
     }
 
     return (
