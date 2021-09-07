@@ -23,8 +23,8 @@ export default function useVisualMode(initial) {
     if (history.length) {
       const tempHistory = [...history];
       tempHistory.pop();
-      const prev = tempHistory.slice(-1)[0];
-      setMode(prev);
+      const newTempHistory = tempHistory.slice(-1)[0];
+      setMode(newTempHistory);
       setHistory(tempHistory);
     }
   };

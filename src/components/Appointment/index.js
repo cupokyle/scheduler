@@ -57,12 +57,6 @@ export default function Appointment(props) {
       .catch((error) => transition(ERROR_DELETE, true));
   }
 
-  // Mentor & I could not get to the bottom of TypeError
-  // Using function to transition from Error_Delete close instead
-  function toEdit() {
-    transition(EDIT);
-  }
-
   return (
     <article className="appointment">
       <Header time={time} />
@@ -72,7 +66,7 @@ export default function Appointment(props) {
           student={interview.student}
           interviewer={interview.interviewer}
           onDelete={() => transition(CONFIRM)}
-          onEdit={toEdit}
+          onEdit={() => transition(EDIT)}
         />
       )}
       {mode === CREATE && (
