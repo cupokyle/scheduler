@@ -20,12 +20,14 @@ export default function useVisualMode(initial) {
   };
 
   const back = () => {
-    if (history.length) {
-      const tempHistory = [...history];
-      tempHistory.pop();
-      const newTempHistory = tempHistory.slice(-1)[0];
-      setMode(newTempHistory);
-      setHistory(tempHistory);
+    if (mode !== "FIRST") {
+      if (history.length) {
+        const tempHistory = [...history];
+        tempHistory.pop();
+        const newTempHistory = tempHistory.slice(-1)[0];
+        setMode(newTempHistory);
+        setHistory(tempHistory);
+      }
     }
   };
 
