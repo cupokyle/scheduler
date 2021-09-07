@@ -39,20 +39,12 @@ export default function Appointment(props) {
       .catch((err) => transition(ERROR_SAVE, true));
   }
 
-  // function cancel() {
-  //   transition(DELETING, true);
-  //   cancelInterview(id)
-  //     .then(() => {
-  //       transition(EMPTY);
-  //     })
-  //     .catch((err) => transition(ERROR_DELETE, true));
-  // }
   function cancel() {
     transition(DELETING, true);
 
     cancelInterview(id)
       .then((response) => {
-        transition(SHOW);
+        transition(EMPTY);
       })
       .catch((error) => transition(ERROR_DELETE, true));
   }
