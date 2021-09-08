@@ -1,28 +1,30 @@
 import React from "react";
 import "components/Application.scss";
 
+// ---- Key Components ---- //
 import Appointment from "./Appointment";
 import DayList from "./DayList";
 
+// ---- Selectors ---- //
 import {
   getAppointmentsForDay,
   getInterview,
   getInterviewersForDay,
 } from "helpers/selectors";
 
+// ---- Hooks ---- //
 import useApplicationData from "hooks/useApplicationData";
 
 export default function Application(props) {
   const { state, setDay, bookInterview, cancelInterview } =
     useApplicationData();
 
+  // ---- Parse Data for entire Application ---- //
   const appointments = getAppointmentsForDay(state, state.day);
-
   const interviewers = getInterviewersForDay(state, state.day);
-
+  // Create schedule array
   const schedule = appointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
-
     return (
       <Appointment
         key={appointment.id}
@@ -35,6 +37,8 @@ export default function Application(props) {
       />
     );
   });
+
+  // ---- Application Display ---- //
 
   return (
     <main className="layout">

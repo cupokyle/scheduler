@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import InterviewerList from "components/InterviewerList";
 import Button from "components/Button";
 
@@ -10,16 +11,17 @@ export default function Form(props) {
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
 
+  // Return form to initial state
   const reset = () => {
     setName("");
     setInterviewer(null);
   };
-
+  // Return to previous mode
   const cancel = () => {
     reset();
     props.onCancel();
   };
-
+  // Ensure that name is not blank before Saving interview
   function validate() {
     if (name === "") {
       setError("Student name cannot be blank");

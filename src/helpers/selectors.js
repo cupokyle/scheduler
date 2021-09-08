@@ -1,3 +1,5 @@
+// ---- Selectors ---- //
+
 export function getAppointmentsForDay(state, day) {
   // Find the day in state.days
   const selectedDayApps = state.days.filter((thisDay) => thisDay.name === day);
@@ -18,8 +20,6 @@ export function getAppointmentsForDay(state, day) {
 
 export function getInterview(state, interview) {
   if (interview) {
-    // console.log("this interview:", interview);
-    // console.log("state interviewers:", state.interviewers);
     return {
       student: interview.student,
       interviewer: state.interviewers[interview.interviewer],

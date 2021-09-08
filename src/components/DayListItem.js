@@ -1,12 +1,19 @@
 import React from "react";
 import classnames from "classnames";
+
 import "components/DayListItem.scss";
 
+// ---- DayListItem Component ---- //
+
 export default function DayListItem(props) {
+  //Classnames implementation
+
   const dayClass = classnames("day-list__item", {
     "day-list__item--selected": props.selected,
     "day-list__item--full": props.spots === 0,
   });
+
+  // Change display depending on # of Spots
   function formatSpots(num) {
     if (num === 0) {
       return "no spots remaining";
@@ -16,6 +23,7 @@ export default function DayListItem(props) {
     }
     return num + " spots remaining";
   }
+
   return (
     <li
       data-testid="day"

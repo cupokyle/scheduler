@@ -1,7 +1,7 @@
 import React from "react";
-
 import useVisualMode from "hooks/useVisualMode";
 
+// Import appointment components to use as visual modes
 import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
@@ -16,6 +16,7 @@ export default function Appointment(props) {
   const { id, time, interview, interviewers, bookInterview, cancelInterview } =
     props;
 
+  // Store modes as variables
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
@@ -26,22 +27,27 @@ export default function Appointment(props) {
   const ERROR_SAVE = "ERROR_SAVE";
   const ERROR_DELETE = "ERROR_DELETE";
 
+  // Determine initial mode for appointments
   const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
 
   function save(name, interviewer) {
+    // Format interview object
     const interview = {
       student: name,
       interviewer,
     };
+    // Show status mode
     transition(SAVING);
+    // Run packaged axios call to book interview
     bookInterview(id, interview)
       .then(() => transition(SHOW))
       .catch((err) => transition(ERROR_SAVE, true));
   }
 
   function cancel() {
+    // Show status mode
     transition(DELETING, true);
-
+    // Run packaged axios call to delete an interview
     cancelInterview(id)
       .then((response) => {
         transition(EMPTY);
@@ -51,7 +57,12 @@ export default function Appointment(props) {
 
   return (
     <article className="appointment">
+      {/* Header Always Shows */}
+
       <Header time={time} />
+
+      {/* Initial Modes */}
+
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === SHOW && (
         <Show
@@ -61,6 +72,9 @@ export default function Appointment(props) {
           onEdit={() => transition(EDIT)}
         />
       )}
+
+      {/* Editable Modes */}
+
       {mode === CREATE && (
         <Form
           interviewers={interviewers}
@@ -82,7 +96,6 @@ export default function Appointment(props) {
       {/* Status/Error Messages */}
       {mode === SAVING && <Status message={"SAVING"} />}
       {mode === DELETING && <Status message={"DELETING"} />}
-
       {mode === CONFIRM && (
         <Confirm
           message={"You sure about that?"}

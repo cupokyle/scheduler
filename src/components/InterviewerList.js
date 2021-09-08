@@ -1,7 +1,11 @@
 import React from "react";
-import InterviewerListItem from "./InterviewerListItem";
-import "components/InterviewerList.scss";
 import PropTypes from "prop-types";
+
+import InterviewerListItem from "./InterviewerListItem";
+
+import "components/InterviewerList.scss";
+
+// ---- InterviewerList Component ---- //
 
 export default function InterviewerList(props) {
   const { interviewers, onChange, value } = props;
@@ -15,6 +19,7 @@ export default function InterviewerList(props) {
       setInterviewer={(event) => onChange(interviewer.id)}
     />
   ));
+
   return (
     <section className="interviewers">
       <h4 className="interviewers__header text--light">Interviewer</h4>
